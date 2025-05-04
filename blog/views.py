@@ -3,6 +3,7 @@ import folium
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.templatetags.static import static
 
 from blog.models import Comment
 from blog.models import Post
@@ -15,7 +16,7 @@ def serialize_post(post):
         "text": post.text,
         "author": post.author.username,
         "comments_amount": Comment.objects.filter(post=post).count(),
-        "image_url": post.image.url if post.image else None,
+        "image_url": post.image.url if post.image else static('banner/blog.png'),
         "published_at": post.published_at,
         "slug": post.slug,
     }
@@ -50,7 +51,7 @@ def post_detail(request, slug):
         "author": post.author.username,
         "comments": serialized_comments,
         'likes_amount': post.likes.count(),
-        "image_url": post.image.url if post.image else None,
+        "image_url": post.image.url if post.image else static('banner/blog.png'),
         "published_at": post.published_at,
         "slug": post.slug,
     }
